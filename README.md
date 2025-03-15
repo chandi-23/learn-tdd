@@ -49,10 +49,24 @@ should be placed in `tests/authorService.test.ts`.
 
 Briefly explain a limitation of the tests in `tests/authorSchema.test.ts` in the space below.
 
+tests/authorSchema.test.ts primarily focus on validation constraints (e.g., required fields, maximum length) but do not test schema behaviors:
 
+Here's an example:
+* The tests use validateSync() instead of actually saving to MongoDB, so they do not check how the schema behaves when stored in a real database.
+* If the schema includes default values or virtual fields, the tests do not validate their correctness.
+* It does not test for duplicate authors.
+* The tests do not cover scenarios like partial updates, invalid date ranges (e.g., date_of_death before date_of_birth), or optional fields being null.
 
 ## Part 3
 
 Generate the coverage report for the tests you wrote. How can you improve
 your tests using the coverage report? Briefly explain your 
 process in the space below.
+
+1. Add more tests related to branches[that check different paths in conditional logic] (5.71%) and functions[If schema methods exist (e.g., pre-save hooks or virtual properties), write tests that verify their behavior.] (5.88%).
+
+2. Using the report to find untested parts of the `authorSchema` model, focusing on edge cases in validation, optional fields, and interactions with the database.
+
+3. Instead of just `validateSync()`, attempt to save documents to MongoDB and verify the expected behavior.
+
+4. After adding new test cases, generate a new coverage report to see improvements and ensure all critical logic is tested.
